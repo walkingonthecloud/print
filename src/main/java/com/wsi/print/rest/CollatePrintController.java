@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @Slf4j
@@ -24,16 +25,29 @@ public class CollatePrintController {
         return new ResponseEntity<>(collateService.getLPNs(), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/create/{lpn}")
-    public ResponseEntity<String> createCollateForLpn(@PathVariable String lpn) {
+    @PostMapping(path = "/create/png/{lpn}")
+    public ResponseEntity<String> createPNGForLpn(@PathVariable String lpn) {
         try {
-            if (collateService.createLabelPNGForLpn(lpn)) {
-                return new ResponseEntity<>("Collate successfully created!", HttpStatus.OK);
+            if (!Objects.isNull(collateService.createLabelPNGForLpn(lpn))) {
+                return new ResponseEntity<>("PNG successfully created!", HttpStatus.OK);
             }
         } catch (Exception e) {
-            log.error("Error creating collate for LPN {}", lpn, e);
-            return new ResponseEntity<>("Error creating collate for LPN " + lpn, HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error creating PNG for LPN {}", lpn, e);
+            return new ResponseEntity<>("Error creating PNG for LPN " + lpn, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Collate successfully created!", HttpStatus.OK);
+        return new ResponseEntity<>("PNG successfully created!", HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/create/collate/{lpn}")
+    public ResponseEntity<String> createCollateForLpn(@PathVariable String lpn) {
+        try {
+            if (collateService.printCollateForLPN(lpn)) {
+                return new ResponseEntity<>("Collate successfully printed!", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.error("Error printing collate for LPN {}", lpn, e);
+            return new ResponseEntity<>("Error printing collate for LPN " + lpn, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("Collate successfully printed!", HttpStatus.OK);
     }
 }

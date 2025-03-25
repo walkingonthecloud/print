@@ -1,22 +1,24 @@
-<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
-<jasperReport name="MyReport" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c8a1a05c-ec54-4aff-ad53-ceb91c146677">
-	<parameter name="brandName" class="java.lang.String"/>
-	<parameter name="labelImage" class="java.awt.Image"/>
-	<query language="sql"><![CDATA[]]></query>
-	<background/>
-	<title height="108">
-		<element kind="textField" uuid="6755667d-2447-4344-9415-809d57544bf5" x="0" y="10" width="170" height="30">
-			<expression><![CDATA[$P{brandName}]]></expression>
-		</element>
-	</title>
-	<pageHeader height="13"/>
-	<columnHeader height="21"/>
-	<detail>
-		<band height="126"/>
-	</detail>
-	<columnFooter/>
-	<pageFooter height="301">
-		<element kind="image" uuid="2dce5f56-814b-41ba-a070-dcff2ba5c2cb" x="250" y="30" width="50" height="50"/>
-	</pageFooter>
-	<summary/>
+<jasperReport name="MyReport">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="wsi" />
+    <parameter name="labelImage" class="java.io.InputStream" />
+    <queryString>
+        <![CDATA[select * from collates]]>
+    </queryString>
+    <title>
+        <band height="700" >
+            <staticText>
+                <reportElement x="40" y="4" width="210" height="30" />
+                <textElement textAlignment="Center" verticalAlignment="Middle" />
+                <text>
+                    <![CDATA[This is image example in jasper report]]>
+                </text>
+            </staticText>
+            <image>
+                <reportElement x="40" y="14" width="350" height="500" />
+                <imageExpression>
+                    <![CDATA[$P{labelImage}]]>
+                </imageExpression>
+            </image>
+        </band>
+    </title>
 </jasperReport>
