@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import javax.imageio.ImageIO;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -64,7 +63,7 @@ public class CollateServiceImpl implements CollateService {
     }
 
     @Override
-    public boolean printCollateForLPN(String lpn) throws IOException, JRException {
+    public boolean printCollateForLPN(String lpn) throws Exception {
         log.info("Printing collate for LPN {}", lpn);
         //ClassPathResource resource = new ClassPathResource("/MyReport.jrxml");
         File file = ResourceUtils.getFile("src/main/resources/static/images/kili.jpg");
@@ -78,12 +77,40 @@ public class CollateServiceImpl implements CollateService {
             log.error("LPN {} not found in the DB", lpn);
             return false;
         }
-        InputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(collate.getPng()));
+        byte[] labelBytes = Base64.getDecoder().decode(collate.getPng());
+        labelBytes = rotateImage(labelBytes, Math.toRadians(270));
+
+        InputStream inputStream = new ByteArrayInputStream(labelBytes);
         parameters.put("labelImage", inputStream);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
         JasperExportManager.exportReportToPdfFile(jasperPrint, "collate.pdf");
         return true;
     }
 
+    /**
+     * Rotates an image by a specified angle.
+     *
+     * @param originalImageAsBytes the original image as a byte array
+     * @param radians the angle of rotation in radians
+     * @return the rotated image as a byte array
+     * @throws Exception if an error occurs during image processing
+     */
+    private byte[] rotateImage(byte[] originalImageAsBytes , double radians) throws Exception {
+        ByteArrayOutputStream rotatedImageStream = null;
 
+        try {
+            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(originalImageAsBytes));
+            AffineTransform rotationTransform = new AffineTransform();
+            rotationTransform.rotate(radians, originalImage.getWidth() / 2.0 , originalImage.getHeight() / 2.0);
+            AffineTransformOp rotationTransformOp =
+                    new AffineTransformOp(rotationTransform , AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            BufferedImage rotatedImage = rotationTransformOp.filter(originalImage,null);
+
+            rotatedImageStream = new ByteArrayOutputStream();
+            ImageIO.write(rotatedImage, "png" , rotatedImageStream);
+        } catch (IOException e) {
+            throw new Exception(e);
+        }
+        return rotatedImageStream.toByteArray();
+    }
 }

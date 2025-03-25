@@ -11,6 +11,6 @@ public interface CollateService {
 
     List<String> getLPNs();
 
-    boolean printCollateForLPN(String lpn) throws IOException, JRException;
+    boolean printCollateForLPN(String lpn) throws Exception;
 
 }
