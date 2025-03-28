@@ -1,8 +1,10 @@
 package com.wsi.print.rest;
 
 import com.wsi.print.impl.CollateServiceImpl;
+import com.wsi.print.impl.LabelaryServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +17,11 @@ import java.util.Objects;
 public class CollatePrintController {
 
     private final CollateServiceImpl collateService;
+    private final LabelaryServiceImpl labelaryService;
 
-    public CollatePrintController(CollateServiceImpl collateService) {
+    public CollatePrintController(CollateServiceImpl collateService, LabelaryServiceImpl labelaryService) {
         this.collateService = collateService;
+        this.labelaryService = labelaryService;
     }
 
     @GetMapping(path = "/LPNs", produces = "application/json")
@@ -36,6 +40,17 @@ public class CollatePrintController {
             return new ResponseEntity<>("Error creating PNG for LPN " + lpn, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("PNG successfully created!", HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/zpl/to/png", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> createPNgfromZPL(@RequestBody String zpl) {
+        try {
+            labelaryService.convertZplToPng(zpl);
+        } catch (Exception e) {
+            log.error("Error converting ZPL to PNG", e);
+            return new ResponseEntity<>("Error converting ZPL to PNG, with error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("Collate successfully printed!", HttpStatus.OK);
     }
 
     @PostMapping(path = "/create/collate/{lpn}")
