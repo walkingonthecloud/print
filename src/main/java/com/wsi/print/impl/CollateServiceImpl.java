@@ -70,7 +70,17 @@ public class CollateServiceImpl implements CollateService {
         String reportPath = ResourceUtils.getFile("src/main/resources/MyReport.jrxml").getAbsolutePath();
         JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("brandName", "PotteryBarn");
+        parameters.put("brandName", "Pottery Barn");
+        parameters.put("titleStreet", "50101 Lewis Braselton Boulevard SE");
+        parameters.put("titleCityStateZip", "Cincinatti, Ohio 45202");
+
+        parameters.put("thanksPB1", "Thank you for shopping with Pottery Barn");
+        parameters.put("thanksPB2", "For Customer Service, call 1-800-922-9934");
+        parameters.put("thanksPB3", "Or email: customerservice@potterybarn.com");
+
+        parameters.put("pageNumber", "1 of 1");
+        parameters.put("waveNumber", "202503270001");
+        parameters.put("orderNumber", "202503270001");
 
         collate = collateRepository.findByLpn(lpn);
         if (Objects.isNull(collate)) {
@@ -101,7 +111,7 @@ public class CollateServiceImpl implements CollateService {
         try {
             BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(originalImageAsBytes));
             AffineTransform rotationTransform = new AffineTransform();
-            rotationTransform.rotate(radians, originalImage.getWidth() / 2.0 , originalImage.getHeight() / 2.0);
+            rotationTransform.rotate(radians, originalImage.getWidth() / 2.0 , originalImage.getHeight() / 3.0);
             AffineTransformOp rotationTransformOp =
                     new AffineTransformOp(rotationTransform , AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             BufferedImage rotatedImage = rotationTransformOp.filter(originalImage,null);
