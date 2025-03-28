@@ -62,28 +62,28 @@
             <textField>
                 <reportElement x="466" y="4" width="100" height="10" uuid="33e85df8-ab10-4d4e-a248-632110ae7966"/>
                 <textElement>
-                    <font size="6"/>
+                    <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA["Page	   :  "+$P{pageNumber}]]></textFieldExpression>
+                <textFieldExpression><![CDATA["Page	  :  "+$P{pageNumber}]]></textFieldExpression>
             </textField>
-            <textField pattern="MM/dd/yyyy">
+            <textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
                 <reportElement x="466" y="14" width="100" height="10" uuid="126f42e5-dd03-4750-8d1f-345c524c5bac"/>
                 <textElement>
-                    <font size="6"/>
+                    <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA["Date	   :  "+new java.util.Date()]]></textFieldExpression>
+                <textFieldExpression><![CDATA["Date	  :  "+new java.util.Date()]]></textFieldExpression>
             </textField>
             <textField>
                 <reportElement x="466" y="24" width="100" height="10" uuid="126f42e5-dd03-4750-8d1f-345c524c5bac"/>
                 <textElement>
-                    <font size="6"/>
+                    <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA["Wave	   :  "+$P{waveNumber}]]></textFieldExpression>
+                <textFieldExpression><![CDATA["Wave	  :  "+$P{waveNumber}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="466" y="34" width="109" height="9" uuid="126f42e5-dd03-4750-8d1f-345c524c5bac"/>
+                <reportElement x="466" y="34" width="100" height="10" uuid="126f42e5-dd03-4750-8d1f-345c524c5bac"/>
                 <textElement>
-                    <font size="6"/>
+                    <font size="8"/>
                 </textElement>
                 <textFieldExpression><![CDATA["Order   	  :  "+$P{orderNumber}]]></textFieldExpression>
             </textField>
@@ -91,47 +91,50 @@
     </title>
     <pageHeader>
         <band height="61">
+            <rectangle>
+                <reportElement x="1" y="1" width="570" height="24" backcolor="#050000" uuid="3be7cf0b-6d2e-432b-be89-cca0bdfd4587"/>
+            </rectangle>
             <staticText>
-                <reportElement x="6" y="4" width="64" height="16" forecolor="#FCFAFA" backcolor="#080100" uuid="cdcb90ad-f6c8-4269-aec4-1a7010ae0b98"/>
+                <reportElement x="6" y="6" width="64" height="16" forecolor="#FFFCFC" backcolor="#FFFDFC" uuid="cdcb90ad-f6c8-4269-aec4-1a7010ae0b98"/>
                 <textElement>
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA["Item"]]></text>
+                <text><![CDATA[Item]]></text>
             </staticText>
             <staticText>
-                <reportElement x="86" y="4" width="64" height="16" forecolor="#FCF7F7" backcolor="#080000" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
+                <reportElement x="86" y="6" width="64" height="16" forecolor="#FFFCFC" backcolor="#FFFDFC" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
                 <textElement>
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA["Description"]]></text>
+                <text><![CDATA[Description]]></text>
             </staticText>
             <staticText>
-                <reportElement x="186" y="4" width="64" height="16" forecolor="#FCF7F7" backcolor="#080000" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
+                <reportElement x="186" y="6" width="64" height="16" forecolor="#FFFCFC" backcolor="#FFFDFC" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
                 <textElement>
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA["Item Status"]]></text>
+                <text><![CDATA[Item Status]]></text>
             </staticText>
             <staticText>
-                <reportElement x="286" y="4" width="64" height="16" forecolor="#FCF7F7" backcolor="#080000" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
+                <reportElement x="286" y="6" width="64" height="16" forecolor="#FFFCFC" backcolor="#FFFDFC" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
                 <textElement>
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA["Qty"]]></text>
+                <text><![CDATA[Qty]]></text>
             </staticText>
             <staticText>
-                <reportElement x="386" y="4" width="64" height="16" forecolor="#FCF7F7" backcolor="#080000" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
+                <reportElement x="386" y="6" width="64" height="16" forecolor="#FFFCFC" backcolor="#FFFDFC" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
                 <textElement>
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA["Unit Price"]]></text>
+                <text><![CDATA[Unit Price]]></text>
             </staticText>
             <staticText>
-                <reportElement x="486" y="4" width="64" height="16" forecolor="#FCF7F7" backcolor="#080000" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
+                <reportElement x="486" y="6" width="64" height="16" forecolor="#FFFCFC" backcolor="#FFFDFC" uuid="102df8da-1a11-451e-ae81-da2cbc22bb3b"/>
                 <textElement>
                     <font size="9"/>
                 </textElement>
-                <text><![CDATA["Total Price"]]></text>
+                <text><![CDATA[Total Price]]></text>
             </staticText>
         </band>
     </pageHeader>
