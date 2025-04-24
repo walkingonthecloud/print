@@ -1,6 +1,7 @@
 package com.wsi.print.rest;
 
 import com.wsi.print.impl.CollateServiceImpl;
+import com.wsi.print.impl.FedextrackingService;
 import com.wsi.print.impl.LabelaryServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,12 @@ public class CollatePrintController {
     private final CollateServiceImpl collateService;
     private final LabelaryServiceImpl labelaryService;
 
-    public CollatePrintController(CollateServiceImpl collateService, LabelaryServiceImpl labelaryService) {
+    private final FedextrackingService fedextrackingService;
+
+    public CollatePrintController(CollateServiceImpl collateService, LabelaryServiceImpl labelaryService, FedextrackingService fedextrackingService) {
         this.collateService = collateService;
         this.labelaryService = labelaryService;
+        this.fedextrackingService = fedextrackingService;
     }
 
     @GetMapping(path = "/LPNs", produces = "application/json")
@@ -40,6 +44,17 @@ public class CollatePrintController {
             return new ResponseEntity<>("Error creating PNG for LPN " + lpn, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("PNG successfully created!", HttpStatus.OK);
+    }
+    @GetMapping(path = "/fedex/track/{trackingNumber}")
+    public ResponseEntity<String> trackFedexShipment(@PathVariable String trackingNumber) {
+        try {
+            // Assuming you have a method to get the OAuth token
+            fedextrackingService.trackShipment(trackingNumber);
+            return new ResponseEntity<>("Package successfully tracked", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error getting OAuth token", e);
+            return new ResponseEntity<>("Error getting OAuth token: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(path = "/zpl/to/png", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)

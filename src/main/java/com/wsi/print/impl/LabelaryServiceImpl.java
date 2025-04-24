@@ -36,7 +36,7 @@ public class LabelaryServiceImpl implements LabelaryService {
 
         log.info("Converting ZPL to PNG >>");
         String decodedZpl = new String(Base64.getDecoder().decode(zpl), StandardCharsets.UTF_8);
-        
+
         var uri = URI.create("http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/");
         var request = HttpRequest.newBuilder(uri)
                 .POST(HttpRequest.BodyPublishers.ofString(decodedZpl))
